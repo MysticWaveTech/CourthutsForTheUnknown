@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Radionics Courtwave</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #log, #perceptionWithBias, #perceptionWithoutBias, #ruling, #enforcingText {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+        button { margin-right: 5px; margin-top: 10px; }
+        #enforceButton { background-color: #f44336; color: white; }
+        
+        #courtContainer.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
+    <script>
+        // The correct password
+        const correctPassword = "Deadline4";
+
+        // Function to unlock court when correct password is provided
+        function unlockCourt() {
+            const passwordInput = document.getElementById("investigatorsPassword").value;
+            if (passwordInput === correctPassword) {
+                document.getElementById("passwordPrompt").style.display = "none";  // Hide password input
+                document.getElementById("courtContainer").classList.remove("disabled");  // Enable the court
+            } else {
+                alert("Incorrect password");
+            }
+        }
+
+        let charges = [];
+
+        function applyCharge(chargeType) {
+            const suspectProduct = document.getElementById("suspectInput").value;
+            if (!suspectProduct) {
+                alert("Please enter a suspect product/effect before applying charges.");
+                return;
+            }
+
+            charges.push(chargeType);
+            const logElement = document.getElementById("log");
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `<p>${timestamp} - Charge Applied: ${chargeType}</p>`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function getRandomNumber() {
+            return Math.floor(Math.random() * 999999) + 1;
+        }
+
+        async function displayPerception(text, elementId) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = ''; // Clear any existing text
+
+            const words = text.split(" ");
+            for (let i = 0; i < words.length; i++) {
+                element.innerHTML += words[i] + " ";
+                await new Promise(resolve => setTimeout(resolve, 300)); // 300ms delay for each word
+            }
+        }
+
+        async function generateRuling() {
+            const suspectProduct = document.getElementById("suspectInput").value;
+            const crimeType = document.getElementById("crimeType").value;
+
+            if (!suspectProduct || charges.length === 0 || !crimeType) {
+                alert("Please enter a suspect product/effect, select a crime type, and apply at least one charge.");
+                return;
+            }
+
+            // Generate a random K Card number
+            const kCardNumber = getRandomNumber();
+
+            // Display perception with preconceived biases
+            const perceptionWithBias = `The product ${suspectProduct} seems questionable, with a K Card number ${kCardNumber}, and may have unintended consequences based on its perceived nature and energy signature.`;
+            await displayPerception(perceptionWithBias, "perceptionWithBias");
+
+            // Display perception without biases
+            const perceptionWithoutBias = `The product ${suspectProduct} objectively exhibits neutral properties with a K Card number ${kCardNumber}, that vary based on its use and intentions set by the user.`;
+            await displayPerception(perceptionWithoutBias, "perceptionWithoutBias");
+
+            // Generate and display the ruling
+            const rulingElement = document.getElementById("ruling");
+            const ruling = `
+                <p><strong>Radionics Case Ruling for:</strong> ${suspectProduct}</p>
+                <p><strong>Crime Type:</strong> ${crimeType}</p>
+                <p><strong>Charges:</strong> ${charges.join(", ")}</p>
+                <p><strong>Verdict:</strong> The radionics courtwave finds that "${suspectProduct}" shall automatically (when "en FORCE ment" button below is clicked) enact the following effects if guilty:</p>
+                <ul>
+                    <li><strong>Radionic Public Awareness:</strong> The effect will radiate an aura that subtly signals its own questionable nature, alerting those nearby to its suspicious presence.</li>
+                    <li><strong>Radionic Restitution:</strong> The product’s energy will adjust itself to disclose its true components and intentions to any who encounter it, creating transparency without human intervention.</li>
+                    <li><strong>Radionic Exile:</strong> The effect will naturally avoid sensitive or lawful spaces where its presence could disrupt public harmony. Its influence will only remain in spaces where it is lawfully accepted.</li>
+                    <li><strong>Radionic Integrity Bond:</strong> "${suspectProduct}" will imprint an energy signature pledging honesty. Should this bond be broken, it will weaken and reveal further insights to those near it.</li>
+                </ul>
+                <p><strong>Final Note:</strong> The ruling of this radionics device will carry out these adjustments (when "en FORCE ment" button below is clicked) automatically, acting on the necessary particles entangled or not entangled in thy products (who'ms verdicts factual and true honestly) resonating vicinity/ies.</p>
+            `;
+            rulingElement.innerHTML = ruling;
+
+            // Reset charges for the next case without clearing the log or suspect input
+            charges = [];
+        }
+
+        async function enforceAction() {
+            const enforceTextElement = document.getElementById("enforcingText");
+            enforceTextElement.innerHTML = "Enforcing";
+
+            // Display the dots one by one
+            for (let i = 1; i <= 3; i++) {
+                await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay
+                enforceTextElement.innerHTML += ".";
+            }
+
+            // After dots are shown, display a final enforcement message
+            enforceTextElement.innerHTML += "<br>Enforcement underway: The radionics effect is now broadcasting if product verdict was guilty!";
+        }
+    </script>
+</head>
+<body>
+    <h1>Radionics Courtwave the courthut's for the unknown</h1>
+    
+    
+    <div id="passwordPrompt" style="color: red; background-color: blue;"  >Paranormal Investigators Password
+        <input type="text" id="investigatorsPassword" placeholder="Reading this password from code might result in consequencial triggering of kinetics mathematics" style="width:80%; padding: 8px; margin-top: 10px; font-size: 10px;">
+        <button id="passwordSubmitButton" onclick="unlockCourt()">Submit Password</button>
+    </div>
+    
+    <!-- Initially hidden court section -->
+    <div id="courtContainer" class="disabled">
+    
+    
+    <input type="text" id="suspectInput" placeholder="Enter suspect product/effect" style="width: 100%; padding: 8px; margin-top: 10px;">
+    <select id="crimeType" style="width: 100%; padding: 8px; margin-top: 10px;">
+        <option value="">Select Crime Type</option>
+        <option value="Attempted Assault">1. Attempted Assault</option>
+        <option value="Assault">2. Assault</option>
+        <option value="Attempted Murder">3. Attempted Murder</option>
+        <option value="Murder">4. Murder</option>
+    </select>
+
+    <button onclick="applyCharge('Spell')">Charge for Spell Crime</button>
+    <button onclick="applyCharge('Ritual')">Charge for Ritual Crime</button>
+    <button onclick="applyCharge('Pact')">Charge for Pact Crime</button>
+    <button onclick="applyCharge('Prayer')">Charge for Prayer Crime</button>
+    <button onclick="applyCharge('Effect')">Charge for Effect Crime</button>
+    <button onclick="generateRuling()" style="background-color: #4CAF50; color: white;">Generate Radionic Courtwave Ruling</button>
+
+    <h2>Log</h2>
+    <div id="log"></div>
+
+    <h2>Perception Analysis</h2>
+    <p><strong>With Preconceived Biases:</strong></p>
+    <div id="perceptionWithBias"></div>
+    <p><strong>Without Preconceived Biases:</strong></p>
+    <div id="perceptionWithoutBias"></div>
+<div id="enforcingText">
+    <h2>Ruling</h2>
+    <div id="ruling"></div>
+
+    <h2>Enforce Radionic Courtwave Ruling</h2>
+    <button id="enforceButton" onclick="enforceAction()">en FORCE ment BUTTON</button>
+    </div>
+    </div>
+</body>
+</html>
